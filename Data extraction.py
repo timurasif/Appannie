@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, ElementNotVisibleException, TimeoutException, WebDriverException
 
 
-def parse_category(platform, category, filename, limit):
+def parse_category(platform, category, filename):
 
     try:
         # Click the platform to get data from (IOS or Google play)
@@ -39,18 +39,18 @@ def parse_category(platform, category, filename, limit):
 
         # Fetch all the app names
         app_names = driver.find_elements_by_xpath(
-            '//tr[@class="main-row table-row"]/td[@class="app-v2  tbl-col-app-v2"]//descendant::div[@class="app-link-container"]//span')[
-                    0:limit]
+            '//tr[@class="main-row table-row"]/td[@class="app-v2  tbl-col-app-v2"]//descendant::div[@class="app-link-container"]//span')
+        app_names = app_names[:len(app_names) // 2]
 
         # Fetch all the company names
         comp_names = driver.find_elements_by_xpath(
-            '//tr[@class="main-row table-row"]/td[@class="app-v2  tbl-col-app-v2"]//descendant::div[@class="company-info"]//span')[
-                     0:limit]
+            '//tr[@class="main-row table-row"]/td[@class="app-v2  tbl-col-app-v2"]//descendant::div[@class="company-info"]//span')
+        comp_names = comp_names[:len(comp_names) // 2]
 
         # Fetch all the urls
         urls = driver.find_elements_by_xpath(
-            '//tr[@class="main-row table-row"]/td[@class="app-v2  tbl-col-app-v2"]//descendant::div[@class="app-link-container"]/a')[
-               0:limit]
+            '//tr[@class="main-row table-row"]/td[@class="app-v2  tbl-col-app-v2"]//descendant::div[@class="app-link-container"]/a')
+        urls = urls[:len(urls) // 2]
 
         # Transfer current data to yesterday's file
         filename_complete = filename + '.csv'
@@ -130,17 +130,17 @@ time.sleep(2)
 
 
 # Get IOS data
-parse_category('top_ios current', 'Free', 'IOS Free', 500)
-parse_category('top_ios current', 'Paid', 'IOS Paid', 500)
-parse_category('top_ios current', 'Grossing', 'IOS Grossing', 500)
+parse_category('top_ios current', 'Free', 'IOS Free')
+parse_category('top_ios current', 'Paid', 'IOS Paid')
+parse_category('top_ios current', 'Grossing', 'IOS Grossing')
 
 # Get Google play data
-parse_category('top_gp', 'Free', 'Google Play Free', 200)
-parse_category('top_gp current', 'Paid', 'Google Play Paid', 200)
-parse_category('top_gp current', 'Grossing', 'Google Play Grossing', 200)
-parse_category('top_gp current', 'New-Free', 'Google Play New Free', 200)
-parse_category('top_gp current', 'New-Paid', 'Google Play New Paid', 200)
+parse_category('top_gp', 'Free', 'Google Play Free')
+parse_category('top_gp current', 'Paid', 'Google Play Paid')
+parse_category('top_gp current', 'Grossing', 'Google Play Grossing')
+parse_category('top_gp current', 'New-Free', 'Google Play New Free')
+parse_category('top_gp current', 'New-Paid', 'Google Play New Paid')
 
 
-time.sleep(5)
+time.sleep(2)
 driver.close()
