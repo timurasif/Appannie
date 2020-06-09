@@ -1,11 +1,13 @@
 import csv
 import time
-from os import path
+import gspread
 import traceback
+from os import path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from oauth2client.service_account import ServiceAccountCredentials
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException, ElementNotVisibleException, TimeoutException, WebDriverException
 
 
@@ -13,12 +15,12 @@ def parse_category(platform, category, filename):
 
     try:
         # Click the platform to get data from (IOS or Google play)
-        current_platform = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//li[@class="' + platform + '"]')))
+        current_platform = WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.XPATH, '//li[@class="' + platform + '"]')))
         current_platform.click()
         time.sleep(1)
 
         # Click on the category to get the data from
-        current_category = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//li[@data-id="' + category + '"]')))
+        current_category = WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.XPATH, '//li[@data-id="' + category + '"]')))
         current_category.click()
         time.sleep(1)
 
@@ -26,16 +28,17 @@ def parse_category(platform, category, filename):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
         # Click on 500 to get all 500 records on the table
-        rows = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//select/option[text()='500']")))
+        rows = WebDriverWait(driver, 50).until(EC.presence_of_element_located((By.XPATH, "//select/option[text()='500']")))
         rows.click()
-        time.sleep(1)
+        time.sleep(3)
 
         # Get to the top of the page
         driver.execute_script("window.scrollTo(0, 0);")
 
         # Fetch all the app ranks
         app_ranks = driver.find_elements_by_xpath(
-            '//tr[@class="main-row table-row"]/td[@class=" number tbl-col-sort-number"]/span')[0:limit]
+            '//tr[@class="main-row table-row"]/td[@class=" number tbl-col-sort-number"]/span')
+        app_ranks = app_ranks[:len(app_ranks) // 2]
 
         # Fetch all the app names
         app_names = driver.find_elements_by_xpath(
@@ -55,14 +58,11 @@ def parse_category(platform, category, filename):
         # Transfer current data to yesterday's file
         filename_complete = filename + '.csv'
         if path.exists(filename_complete):
-            print('File exists previously')
             old_file = filename
             old_file = old_file + ' Old'
             with open('%s.csv' % filename, 'r', encoding="utf8") as f:
                 with open('%s.csv' % old_file, 'w', encoding="utf8") as f1:
                     for line in f:
-                        print('Old data')
-                        print(line)
                         f1.write(line)
 
         # Create a new file
@@ -70,10 +70,18 @@ def parse_category(platform, category, filename):
             writer = csv.writer(f)
             writer.writerow(['Rank', 'Name', 'Company', 'Link'])
 
+        # Getting Google worksheet ready to append data
+        sheet = client.open('AppAnnie').worksheet(filename)
+        sheet.delete_columns(1, 4)
+        sheet.append_row(['Rank', 'Name', 'Company', 'Link'])
+        time.sleep(1)
+
         # Loop through all apps and store in the file
         for app_rank, app_name, comp_name, url in zip(app_ranks, app_names, comp_names, urls):
             print(app_rank.text, app_name.text, comp_name.text, url.get_attribute('href'))
             data = [app_rank.text, app_name.text, comp_name.text, url.get_attribute('href')]
+            sheet.append_row(data)
+            time.sleep(1)
             with open('%s.csv' % filename, 'a', newline='', encoding="utf-8") as f2:
                 writer2 = csv.writer(f2)
                 writer2.writerow(data)
@@ -103,6 +111,12 @@ url = 'https://www.appannie.com/en/'
 driver.get(url)
 
 
+# Google Sheets API setup
+scope = ['https://www.googleapis.com/auth/drive']
+credentials = ServiceAccountCredentials.from_json_keyfile_name('Credentials.json', scope)
+client = gspread.authorize(credentials)
+
+
 # Click on login button
 login = driver.find_element_by_xpath('//a[@class="square_1vlycxf-o_O-n_1jv8115-o_O-Small_7u8o3i-o_O-Small_1kr48mh-o_O-primary_wyybpq-o_O-white_1qdkg78-o_O-button_d9moc2-o_O-margin_1cxx2lc"]')
 login.click()
@@ -130,8 +144,8 @@ time.sleep(2)
 
 
 # Get IOS data
-parse_category('top_ios current', 'Free', 'IOS Free')
-parse_category('top_ios current', 'Paid', 'IOS Paid')
+# parse_category('top_ios current', 'Free', 'IOS Free')
+# parse_category('top_ios current', 'Paid', 'IOS Paid')
 parse_category('top_ios current', 'Grossing', 'IOS Grossing')
 
 # Get Google play data
