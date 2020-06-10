@@ -146,13 +146,13 @@ time.sleep(2)
 # Get IOS data
 # parse_category('top_ios current', 'Free', 'IOS Free')
 # parse_category('top_ios current', 'Paid', 'IOS Paid')
-parse_category('top_ios current', 'Grossing', 'IOS Grossing')
+# parse_category('top_ios current', 'Grossing', 'IOS Grossing')
 
 # Get Google play data
-parse_category('top_gp', 'Free', 'Google Play Free')
-parse_category('top_gp current', 'Paid', 'Google Play Paid')
-parse_category('top_gp current', 'Grossing', 'Google Play Grossing')
-parse_category('top_gp current', 'New-Free', 'Google Play New Free')
+# parse_category('top_gp', 'Free', 'Google Play Free')
+# parse_category('top_gp current', 'Paid', 'Google Play Paid')
+# parse_category('top_gp current', 'Grossing', 'Google Play Grossing')
+parse_category('top_gp', 'New-Free', 'Google Play New Free')
 parse_category('top_gp current', 'New-Paid', 'Google Play New Paid')
 
 
