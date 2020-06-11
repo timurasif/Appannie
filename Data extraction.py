@@ -106,7 +106,7 @@ try:
     options = Options()
     options.headless = True
     options.add_argument("--window-size=1920,1080")
-    driver = webdriver.Chrome(r'/app/.chromedriver/bin/chromedriver', options=options)
+    driver = webdriver.Chrome(r'C:\Users\Lenovo\Downloads\chromedriver_win32\chromedriver', options=options)
 except WebDriverException:
     print('Webdriver not found!')
 
