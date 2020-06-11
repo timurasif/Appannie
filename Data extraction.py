@@ -57,37 +57,37 @@ def parse_category(platform, category, filename):
         urls = urls[:len(urls) // 2]
 
         # Transfer current data to yesterday's file
-        # filename_complete = filename + '.csv'
-        # if path.exists(filename_complete):
-        #     old_file = filename
-        #     old_file = old_file + ' Old'
-        #     with open('%s.csv' % filename, 'r', encoding="utf8") as f:
-        #         with open('%s.csv' % old_file, 'w', encoding="utf8") as f1:
-        #             for line in f:
-        #                 f1.write(line)
+        filename_complete = filename + '.csv'
+        if path.exists(filename_complete):
+            old_file = filename
+            old_file = old_file + ' Old'
+            with open('%s.csv' % filename, 'r', encoding="utf8") as f:
+                with open('%s.csv' % old_file, 'w', encoding="utf8") as f1:
+                    for line in f:
+                        f1.write(line)
 
         # Create a new file
-        # with open('%s.csv' % filename, 'w', newline='') as f:
-        #     writer = csv.writer(f)
-        #     writer.writerow(['Rank', 'Name', 'Company', 'Link'])
+        with open('%s.csv' % filename, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(['Rank', 'Name', 'Company', 'Link'])
 
         # Getting Google worksheet ready to append data
-        # sheet = client.open('AppAnnie').worksheet(filename)
-        # sheet.delete_columns(1, 4)
-        # sheet.append_row(['Rank', 'Name', 'Company', 'Link'])
-        # time.sleep(1)
+        sheet = client.open('AppAnnie').worksheet(filename)
+        sheet.delete_columns(1, 4)
+        sheet.append_row(['Rank', 'Name', 'Company', 'Link'])
+        time.sleep(1)
 
         # Loop through all apps and store in the file
         for app_rank, app_name, comp_name, url in zip(app_ranks, app_names, comp_names, urls):
             print(app_rank.text, app_name.text, comp_name.text, url.get_attribute('href'))
-            # data = [app_rank.text, app_name.text, comp_name.text, url.get_attribute('href')]
-            # sheet.append_row(data)
-            # time.sleep(1)
-            # with open('%s.csv' % filename, 'a', newline='', encoding="utf-8") as f2:
-            #     writer2 = csv.writer(f2)
-            #     writer2.writerow(data)
-            #
-            # time.sleep(0.1)
+            data = [app_rank.text, app_name.text, comp_name.text, url.get_attribute('href')]
+            sheet.append_row(data)
+            time.sleep(1)
+            with open('%s.csv' % filename, 'a', newline='', encoding="utf-8") as f2:
+                writer2 = csv.writer(f2)
+                writer2.writerow(data)
+
+            time.sleep(0.1)
 
     except NoSuchElementException:
         print('One of the elements was not found')
