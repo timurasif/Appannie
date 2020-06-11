@@ -106,7 +106,7 @@ try:
     options = Options()
     options.headless = True
     options.add_argument("--window-size=1920,1080")
-    driver = webdriver.Chrome(r'C:\Users\Lenovo\Downloads\chromedriver_win32\chromedriver', options=options)
+    driver = webdriver.Chrome(r'/app/.chromedriver/bin/chromedriver', options=options)
 except WebDriverException:
     print('Webdriver not found!')
 
@@ -129,11 +129,11 @@ try:
     # Enter credentials and hit submit
     username = driver.find_element_by_xpath('//input[@name="username"]')
     username.clear()
-    username.send_keys('timur.asif@techsiders.com')
+    username.send_keys('tmrsfbt19@gmail.com')
 
     password = driver.find_element_by_xpath('//input[@type="password"]')
     password.clear()
-    password.send_keys('Test@1234')
+    password.send_keys('Techsiders@2020')
 
     submit = driver.find_element_by_xpath('//button[@class="Button__ButtonBlank-sc-1wnez5l-2 Button__UCButton-sc-1wnez5l-9 lcBtUr"]')
     submit.click()
@@ -158,7 +158,7 @@ parse_category('top_ios current', 'Grossing', 'IOS Grossing')
 parse_category('top_gp', 'Free', 'Google Play Free')
 parse_category('top_gp current', 'Paid', 'Google Play Paid')
 parse_category('top_gp current', 'Grossing', 'Google Play Grossing')
-parse_category('top_gp', 'New-Free', 'Google Play New Free')
+parse_category('top_gp current', 'New-Free', 'Google Play New Free')
 parse_category('top_gp current', 'New-Paid', 'Google Play New Paid')
 
 
