@@ -72,8 +72,14 @@ def parse_category(platform, category, filename):
             writer.writerow(['Rank', 'Name', 'Company', 'Link'])
 
         # Getting Google worksheet ready to append data
-        sheet = client.open('AppAnnie').worksheet(filename)
-        sheet.delete_columns(1, 4)
+        sheet = client.open('Jobs Scraper').worksheet(filename)
+        sheet.delete_columns(1)
+        time.sleep(1)
+        sheet.delete_columns(1)
+        time.sleep(1)
+        sheet.delete_columns(1)
+        time.sleep(1)
+        sheet.delete_columns(1)
         sheet.append_row(['Rank', 'Name', 'Company', 'Link'])
         time.sleep(1)
 
@@ -104,9 +110,9 @@ def parse_category(platform, category, filename):
 # Initialize driver and go to the web page
 try:
     options = Options()
-    options.headless = True
+    #options.headless = True
     options.add_argument("--window-size=1920,1080")
-    driver = webdriver.Chrome(r'C:\Users\Lenovo\Downloads\chromedriver_win32\chromedriver', options=options)
+    driver = webdriver.Chrome(executable_path='/app/.chromedriver/bin/chromedriver', options=options)
 except WebDriverException:
     print('Webdriver not found!')
 
@@ -129,11 +135,11 @@ try:
     # Enter credentials and hit submit
     username = driver.find_element_by_xpath('//input[@name="username"]')
     username.clear()
-    username.send_keys('tmrsfbt19@gmail.com')
+    username.send_keys('techsiders2020@gmail.com')
 
     password = driver.find_element_by_xpath('//input[@type="password"]')
     password.clear()
-    password.send_keys('Techsiders@2020')
+    password.send_keys('newPassword@2020')
 
     submit = driver.find_element_by_xpath('//button[@class="Button__ButtonBlank-sc-1wnez5l-2 Button__UCButton-sc-1wnez5l-9 lcBtUr"]')
     submit.click()

@@ -19,7 +19,7 @@ with open('IOS Report.csv', 'w', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(['Rank', 'Name', 'Company', 'Link', 'Reason'])
 
-sheet = client.open('AppAnnie').worksheet('IOS Report')
+sheet = client.open('Jobs Scraper').worksheet('IOS Report')
 sheet.delete_columns(1, 5)
 sheet.append_row(['Rank', 'Name', 'Company', 'Link', 'Reason'])
 time.sleep(1)
@@ -70,7 +70,7 @@ with open('Google Play Report.csv', 'w', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(['Rank', 'Name', 'Company', 'Link', 'Reason'])
 
-sheet = client.open('AppAnnie').worksheet('Google Play Report')
+sheet = client.open('Jobs Scraper').worksheet('Google Play Report')
 sheet.delete_columns(1, 5)
 sheet.append_row(['Rank', 'Name', 'Company', 'Link', 'Reason'])
 time.sleep(1)

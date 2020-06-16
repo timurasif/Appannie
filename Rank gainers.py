@@ -14,7 +14,7 @@ client = gspread.authorize(credentials)
 # Find Rank gainers for IOS Free
 ios_free = pd.read_csv('IOS Free.csv')
 ios_free_old = pd.read_csv('IOS Free Old.csv')
-sheet = client.open('AppAnnie').worksheet('IOS Report')
+sheet = client.open('Jobs Scraper').worksheet('IOS Report')
 
 for key, value in ios_free.iterrows():
     if value['Name'] in ios_free_old['Name'].to_list():
@@ -63,7 +63,7 @@ for key, value in ios_grossing.iterrows():
 # Find Rank gainers for Google play free
 google_free = pd.read_csv('Google Play Free.csv')
 google_free_old = pd.read_csv('Google Play Free Old.csv')
-sheet = client.open('AppAnnie').worksheet('Google Play Report')
+sheet = client.open('Jobs Scraper').worksheet('Google Play Report')
 
 for key, value in google_free.iterrows():
     if value['Name'] in google_free_old['Name'].to_list():
