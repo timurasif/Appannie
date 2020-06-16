@@ -112,6 +112,7 @@ try:
     options = Options()
     options.headless = True
     options.add_argument("--window-size=1920,1080")
+    options.add_argument('--no-sandbox')
     driver = webdriver.Chrome(executable_path='/app/.chromedriver/bin/chromedriver', options=options)
 except WebDriverException:
     print('Webdriver not found!')
@@ -135,7 +136,7 @@ try:
     # Enter credentials and hit submit
     username = driver.find_element_by_xpath('//input[@name="username"]')
     username.clear()
-    username.send_keys('2020techsiders@gmail.com')
+    username.send_keys('techsiders5@gmail.com')
 
     password = driver.find_element_by_xpath('//input[@type="password"]')
     password.clear()
