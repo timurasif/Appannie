@@ -110,7 +110,7 @@ def parse_category(platform, category, filename):
 # Initialize driver and go to the web page
 try:
     options = Options()
-    #options.headless = True
+    options.headless = True
     options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(executable_path='/app/.chromedriver/bin/chromedriver', options=options)
 except WebDriverException:
