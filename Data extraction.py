@@ -135,7 +135,7 @@ try:
     # Enter credentials and hit submit
     username = driver.find_element_by_xpath('//input[@name="username"]')
     username.clear()
-    username.send_keys('techsiders2020@gmail.com')
+    username.send_keys('2020techsiders@gmail.com')
 
     password = driver.find_element_by_xpath('//input[@type="password"]')
     password.clear()
