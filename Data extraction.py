@@ -111,8 +111,9 @@ def parse_category(platform, category, filename):
 try:
     options = Options()
     options.headless = True
-    options.add_argument("--window-size=1920,1080")
     options.add_argument('--no-sandbox')
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36")
+    options.add_argument("--window-size=1920,1080")
     driver = webdriver.Chrome(executable_path='/app/.chromedriver/bin/chromedriver', options=options)
 except WebDriverException:
     print('Webdriver not found!')
@@ -136,11 +137,11 @@ try:
     # Enter credentials and hit submit
     username = driver.find_element_by_xpath('//input[@name="username"]')
     username.clear()
-    username.send_keys('techsiders5@gmail.com')
+    username.send_keys('ingt2368@gmail.com')
 
     password = driver.find_element_by_xpath('//input[@type="password"]')
     password.clear()
-    password.send_keys('newPassword@2020')
+    password.send_keys('8632!Tgni')
 
     submit = driver.find_element_by_xpath('//button[@class="Button__ButtonBlank-sc-1wnez5l-2 Button__UCButton-sc-1wnez5l-9 lcBtUr"]')
     submit.click()
