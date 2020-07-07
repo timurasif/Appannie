@@ -3,6 +3,7 @@ import time
 import csv
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import datetime
 
 
 # Google Sheets API setup
@@ -14,13 +15,16 @@ client = gspread.authorize(credentials)
 # Find Rank gainers for IOS Free
 ios_free = pd.read_csv('IOS Free.csv')
 ios_free_old = pd.read_csv('IOS Free Old.csv')
-sheet = client.open('Jobs Scraper').worksheet('IOS Report')
+sheet = client.open('AppAnnie Scrapper').worksheet('IOS Report')
 
 for key, value in ios_free.iterrows():
     if value['Name'] in ios_free_old['Name'].to_list():
         old_rank = int(ios_free_old['Rank'][ios_free_old.Name == value['Name']])
         if old_rank-int(value['Rank']) >= 10:
-            data = [value['Rank'], value['Name'], value['Company'], value['Link'], 'Rank gainer']
+            x = datetime.datetime.now()
+            date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+                "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+            data = [value['Rank'], old_rank, value['Name'], value['Company'], "IOS Free", value['Link'], 'Rank gainer', date]
             sheet.append_row(data)
             time.sleep(1)
             with open('IOS Report.csv', 'a', newline='', encoding="utf-8") as f:
@@ -36,7 +40,11 @@ for key, value in ios_paid.iterrows():
     if value['Name'] in ios_paid_old['Name'].to_list():
         old_rank = int(ios_paid_old['Rank'][ios_paid_old.Name == value['Name']])
         if old_rank-int(value['Rank']) >= 10:
-            data = [value['Rank'], value['Name'], value['Company'], value['Link'], 'Rank gainer']
+            x = datetime.datetime.now()
+            date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+                "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+            data = [value['Rank'], old_rank, value['Name'], value['Company'], "IOS Paid", value['Link'], 'Rank gainer',
+                    date]
             sheet.append_row(data)
             time.sleep(1)
             with open('IOS Report.csv', 'a', newline='', encoding="utf-8") as f:
@@ -52,7 +60,11 @@ for key, value in ios_grossing.iterrows():
     if value['Name'] in ios_grossing_old['Name'].to_list():
         old_rank = int(ios_grossing_old['Rank'][ios_grossing_old.Name == value['Name']])
         if old_rank-int(value['Rank']) >= 10:
-            data = [value['Rank'], value['Name'], value['Company'], value['Link'], 'Rank gainer']
+            x = datetime.datetime.now()
+            date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+                "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+            data = [value['Rank'], old_rank, value['Name'], value['Company'], "IOS Grossing", value['Link'], 'Rank gainer',
+                    date]
             sheet.append_row(data)
             time.sleep(1)
             with open('IOS Report.csv', 'a', newline='', encoding="utf-8") as f:
@@ -63,13 +75,17 @@ for key, value in ios_grossing.iterrows():
 # Find Rank gainers for Google play free
 google_free = pd.read_csv('Google Play Free.csv')
 google_free_old = pd.read_csv('Google Play Free Old.csv')
-sheet = client.open('Jobs Scraper').worksheet('Google Play Report')
+sheet = client.open('AppAnnie Scrapper').worksheet('Google Play Report')
 
 for key, value in google_free.iterrows():
     if value['Name'] in google_free_old['Name'].to_list():
-        old_rank = google_free_old['Rank'][google_free_old.Name == value['Name']].index[0]+1
+        old_rank = int(google_free_old['Rank'][google_free_old.Name == value['Name']].index[0]+1)
         if int(old_rank)-int(value['Rank']) >= 10:
-            data = [value['Rank'], value['Name'], value['Company'], value['Link'], 'Rank gainer']
+            x = datetime.datetime.now()
+            date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+                "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+            data = [value['Rank'], old_rank, value['Name'], value['Company'], "Google Play Free", value['Link'], 'Rank gainer',
+                    date]
             sheet.append_row(data)
             time.sleep(1)
             with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f:
@@ -85,7 +101,11 @@ for key, value in google_paid.iterrows():
     if value['Name'] in google_paid_old['Name'].to_list():
         old_rank = int(google_paid_old['Rank'][google_paid_old.Name == value['Name']])
         if old_rank-int(value['Rank']) >= 10:
-            data = [value['Rank'], value['Name'], value['Company'], value['Link'], 'Rank gainer']
+            x = datetime.datetime.now()
+            date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+                "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+            data = [value['Rank'], old_rank, value['Name'], value['Company'], "Google Play Paid", value['Link'], 'Rank gainer',
+                    date]
             sheet.append_row(data)
             time.sleep(1)
             with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f:
@@ -101,7 +121,11 @@ for key, value in google_grossing.iterrows():
     if value['Name'] in google_grossing_old['Name'].to_list():
         old_rank = int(google_grossing_old['Rank'][google_grossing_old.Name == value['Name']])
         if old_rank-int(value['Rank']) >= 10:
-            data = [value['Rank'], value['Name'], value['Company'], value['Link'], 'Rank gainer']
+            x = datetime.datetime.now()
+            date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+                "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+            data = [value['Rank'], old_rank, value['Name'], value['Company'], "Google Play Grossing", value['Link'], 'Rank gainer',
+                    date]
             sheet.append_row(data)
             time.sleep(1)
             with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f:
@@ -117,7 +141,11 @@ for key, value in google_new_free.iterrows():
     if value['Name'] in google_new_free_old['Name'].to_list():
         old_rank = google_new_free_old['Rank'][google_new_free_old.Name == value['Name']].index[0]+1
         if old_rank-int(value['Rank']) >= 10:
-            data = [value['Rank'], value['Name'], value['Company'], value['Link'], 'Rank gainer']
+            x = datetime.datetime.now()
+            date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+                "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+            data = [value['Rank'], old_rank, value['Name'], value['Company'], "Google Play New Free", value['Link'], 'Rank gainer',
+                    date]
             sheet.append_row(data)
             time.sleep(1)
             with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f:
@@ -133,7 +161,11 @@ for key, value in google_new_paid.iterrows():
     if value['Name'] in google_new_paid_old['Name'].to_list():
         old_rank = int(google_new_paid_old['Rank'][google_new_paid_old.Name == value['Name']])
         if old_rank-int(value['Rank']) >= 10:
-            data = [value['Rank'], value['Name'], value['Company'], value['Link'], 'Rank gainer']
+            x = datetime.datetime.now()
+            date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+                "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+            data = [value['Rank'], old_rank, value['Name'], value['Company'], "Google Play New Paid", value['Link'], 'Rank gainer',
+                    date]
             sheet.append_row(data)
             time.sleep(1)
             with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f:

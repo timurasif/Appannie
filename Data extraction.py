@@ -72,14 +72,9 @@ def parse_category(platform, category, filename):
             writer.writerow(['Rank', 'Name', 'Company', 'Link'])
 
         # Getting Google worksheet ready to append data
-        sheet = client.open('Jobs Scraper').worksheet(filename)
-        sheet.delete_columns(1)
-        time.sleep(1)
-        sheet.delete_columns(1)
-        time.sleep(1)
-        sheet.delete_columns(1)
-        time.sleep(1)
-        sheet.delete_columns(1)
+        sheet = client.open('AppAnnie Scrapper')
+        sheet.values_clear("'" + filename + "'!A1:D501")
+        sheet = client.open('AppAnnie Scrapper').worksheet(filename)
         sheet.append_row(['Rank', 'Name', 'Company', 'Link'])
         time.sleep(1)
 
@@ -93,7 +88,7 @@ def parse_category(platform, category, filename):
                 writer2 = csv.writer(f2)
                 writer2.writerow(data)
 
-            time.sleep(0.1)
+            time.sleep(0.25)
 
     except NoSuchElementException:
         print('One of the elements was not found')
@@ -110,17 +105,20 @@ def parse_category(platform, category, filename):
 # Initialize driver and go to the web page
 try:
     options = Options()
-    options.headless = True
-    options.add_argument('--no-sandbox')
+    # options.headless = True
+    # options.add_argument('--no-sandbox')
+    options.add_argument("--disable-dev-shm-usage")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36")
     options.add_argument("--window-size=1920,1080")
-    driver = webdriver.Chrome(executable_path='/app/.chromedriver/bin/chromedriver', options=options)
+    driver = webdriver.Chrome(r'C:\Users\Lenovo\Downloads\chromedriver_win32\chromedriver', options=options)
 except WebDriverException:
     print('Webdriver not found!')
 
 url = 'https://www.appannie.com/en/'
 driver.get(url)
-
+time.sleep(3)
+print(driver.current_url)
+print(driver.title)
 
 # Google Sheets API setup
 scope = ['https://www.googleapis.com/auth/drive']
@@ -132,21 +130,27 @@ try:
     login = driver.find_element_by_xpath('//a[@class="square_1vlycxf-o_O-n_1jv8115-o_O-Small_7u8o3i-o_O-Small_1kr48mh-o_O-primary_wyybpq-o_O-white_1qdkg78-o_O-button_d9moc2-o_O-margin_1cxx2lc"]')
     login.click()
     time.sleep(2)
-
+    print('Login button clicked')
+    time.sleep(3)
+    print(driver.current_url)
+    print(driver.title)
 
     # Enter credentials and hit submit
     username = driver.find_element_by_xpath('//input[@name="username"]')
     username.clear()
-    username.send_keys('ingt2368@gmail.com')
+    username.send_keys('alexjson2354@gmail.com')
 
     password = driver.find_element_by_xpath('//input[@type="password"]')
     password.clear()
-    password.send_keys('8632!Tgni')
+    password.send_keys('alexJson2354-')
+    print('Credentials added')
 
     submit = driver.find_element_by_xpath('//button[@class="Button__ButtonBlank-sc-1wnez5l-2 Button__UCButton-sc-1wnez5l-9 lcBtUr"]')
     submit.click()
     time.sleep(2)
-
+    print('Credentials submitted')
+    print(driver.current_url)
+    print(driver.title)
 
     # Click Top Charts button
     top_charts = driver.find_element_by_xpath('//div[@class="Text-wvugs1-0 platform__GroupItem-sc-4mrpcf-0 fRenhb"][@title="Top Charts"]')

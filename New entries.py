@@ -3,6 +3,7 @@ import time
 import csv
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import datetime
 
 
 # Google Sheets API setup
@@ -17,16 +18,20 @@ ios_free_old = pd.read_csv('IOS Free Old.csv')
 
 with open('IOS Report.csv', 'w', newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(['Rank', 'Name', 'Company', 'Link', 'Reason'])
+    writer.writerow(['New Rank', 'Previous Rank', 'Name', 'Company', 'Category', 'Link', 'Reason', 'Date stamp'])
 
-sheet = client.open('Jobs Scraper').worksheet('IOS Report')
-sheet.delete_columns(1, 5)
-sheet.append_row(['Rank', 'Name', 'Company', 'Link', 'Reason'])
+sheet = client.open('AppAnnie Scrapper')
+sheet.values_clear("'IOS Report'!A1:H1000")
+sheet = client.open('AppAnnie Scrapper').worksheet('IOS Report')
+sheet.append_row(['New Rank', 'Previous Rank', 'Name', 'Company', 'Category', 'Link', 'Reason', 'Date stamp'])
 time.sleep(1)
 
 for index, row in ios_free.iterrows():
     if row['Name'] not in ios_free_old['Name'].to_list():
-        data = [row['Rank'], row['Name'], row['Company'], row['Link'], 'New entry']
+        x = datetime.datetime.now()
+        date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+            "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+        data = [row['Rank'], "-", row['Name'], row['Company'], "IOS Free", row['Link'], 'New entry', date]
         sheet.append_row(data)
         time.sleep(1)
         with open('IOS Report.csv', 'a', newline='', encoding="utf-8") as f2:
@@ -40,7 +45,10 @@ ios_paid_old = pd.read_csv('IOS Paid Old.csv')
 
 for index, row in ios_paid.iterrows():
     if row['Name'] not in ios_paid_old['Name'].to_list():
-        data = [row['Rank'], row['Name'], row['Company'], row['Link'], 'New entry']
+        x = datetime.datetime.now()
+        date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+            "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+        data = [row['Rank'], "-", row['Name'], row['Company'], "IOS Paid", row['Link'], 'New entry', date]
         sheet.append_row(data)
         time.sleep(1)
         with open('IOS Report.csv', 'a', newline='', encoding="utf-8") as f2:
@@ -54,7 +62,10 @@ ios_grossing_old = pd.read_csv('IOS Grossing Old.csv')
 
 for index, row in ios_grossing.iterrows():
     if row['Name'] not in ios_grossing_old['Name'].to_list():
-        data = [row['Rank'], row['Name'], row['Company'], row['Link'], 'New entry']
+        x = datetime.datetime.now()
+        date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+            "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+        data = [row['Rank'], "-", row['Name'], row['Company'], "IOS Grossing", row['Link'], 'New entry', date]
         sheet.append_row(data)
         time.sleep(1)
         with open('IOS Report.csv', 'a', newline='', encoding="utf-8") as f2:
@@ -68,16 +79,20 @@ google_free_old = pd.read_csv('Google Play Free Old.csv')
 
 with open('Google Play Report.csv', 'w', newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(['Rank', 'Name', 'Company', 'Link', 'Reason'])
+    writer.writerow(['New Rank', 'Previous Rank', 'Name', 'Company', 'Category', 'Link', 'Reason', 'Date stamp'])
 
-sheet = client.open('Jobs Scraper').worksheet('Google Play Report')
-sheet.delete_columns(1, 5)
-sheet.append_row(['Rank', 'Name', 'Company', 'Link', 'Reason'])
+sheet = client.open('AppAnnie Scrapper')
+sheet.values_clear("'Google Play Report'!A1:H1000")
+sheet = client.open('AppAnnie Scrapper').worksheet('Google Play Report')
+sheet.append_row(['New Rank', 'Previous Rank', 'Name', 'Company', 'Category', 'Link', 'Reason', 'Date stamp'])
 time.sleep(1)
 
 for index, row in google_free.iterrows():
     if row['Name'] not in google_free_old['Name'].to_list():
-        data = [row['Rank'], row['Name'], row['Company'], row['Link'], 'New entry']
+        x = datetime.datetime.now()
+        date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+            "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+        data = [row['Rank'], "-", row['Name'], row['Company'], "Google Play Free", row['Link'], 'New entry', date]
         sheet.append_row(data)
         time.sleep(1)
         with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f2:
@@ -91,7 +106,10 @@ google_paid_old = pd.read_csv('Google Play Paid Old.csv')
 
 for index, row in google_paid.iterrows():
     if row['Name'] not in google_paid_old['Name'].to_list():
-        data = [row['Rank'], row['Name'], row['Company'], row['Link'], 'New entry']
+        x = datetime.datetime.now()
+        date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+            "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+        data = [row['Rank'], "-", row['Name'], row['Company'], "Google Play Paid", row['Link'], 'New entry', date]
         sheet.append_row(data)
         time.sleep(1)
         with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f2:
@@ -105,7 +123,10 @@ google_grossing_old = pd.read_csv('Google Play Grossing Old.csv')
 
 for index, row in google_grossing.iterrows():
     if row['Name'] not in google_grossing_old['Name'].to_list():
-        data = [row['Rank'], row['Name'], row['Company'], row['Link'], 'New entry']
+        x = datetime.datetime.now()
+        date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+            "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+        data = [row['Rank'], "-", row['Name'], row['Company'], "Google Play Grossing", row['Link'], 'New entry', date]
         sheet.append_row(data)
         time.sleep(1)
         with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f2:
@@ -119,7 +140,10 @@ google_new_free_old = pd.read_csv('Google Play New Free Old.csv')
 
 for index, row in google_new_free.iterrows():
     if row['Name'] not in google_new_free_old['Name'].to_list():
-        data = [row['Rank'], row['Name'], row['Company'], row['Link'], 'New entry']
+        x = datetime.datetime.now()
+        date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+            "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+        data = [row['Rank'], "-", row['Name'], row['Company'], "Google Play New Free", row['Link'], 'New entry', date]
         sheet.append_row(data)
         time.sleep(1)
         with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f2:
@@ -133,7 +157,10 @@ google_new_paid_old = pd.read_csv('Google Play New Paid Old.csv')
 
 for index, row in google_new_paid.iterrows():
     if row['Name'] not in google_new_paid_old['Name'].to_list():
-        data = [row['Rank'], row['Name'], row['Company'], row['Link'], 'New entry']
+        x = datetime.datetime.now()
+        date = (x.strftime("%Y") + "-" + x.strftime("%m") + "-" + x.strftime("%d") + " " + x.strftime(
+            "%H") + ":" + x.strftime("%M") + ":" + x.strftime("%S"))
+        data = [row['Rank'], "-", row['Name'], row['Company'], "Google Play New Paid", row['Link'], 'New entry', date]
         sheet.append_row(data)
         time.sleep(1)
         with open('Google Play Report.csv', 'a', newline='', encoding="utf-8") as f2:
